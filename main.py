@@ -16,6 +16,14 @@ logger = logging.getLogger(__name__)
 def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Hi!\nUse /generate for create fake mail')
 
+# Function for generate fake mail
+def generate_command(update: Update, context: CallbackContext) -> None:
+    req = requests.get("https://generator.email/")
+    res = BeautifulSoup(req.content, "html.parser")
+    soup = res.find_all('input')
+    email = f"{soup[0].get('value')}@{soup[1].get('value')}"
+    uptade.message.reply_text(f'Email Generated: {email}')
+
 def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
